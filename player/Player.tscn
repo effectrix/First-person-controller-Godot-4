@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcqih3nkvhpvc"]
+
+[ext_resource type="Script" path="res://player/Player.gd" id="1_1sl1s"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6q3r4"]
+
+[sub_resource type="Sky" id="Sky_qvtrn"]
+sky_material = SubResource("ProceduralSkyMaterial_6q3r4")
+
+[sub_resource type="Environment" id="Environment_gameu"]
+background_mode = 2
+sky = SubResource("Sky_qvtrn")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uqefq"]
+radius = 0.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bdwaj"]
+radius = 0.4
+height = 1.6
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_1sl1s")
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="Head" type="Node3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Body/Head"]
+environment = SubResource("Environment_gameu")
+
+[node name="CollisionStand" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_uqefq")
+
+[node name="CollisionCrouch" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+shape = SubResource("CapsuleShape3D_bdwaj")
+disabled = true
+
+[node name="JumpCooldown" type="Timer" parent="."]
+
+[connection signal="timeout" from="JumpCooldown" to="." method="_on_jump_cooldown_timeout"]
